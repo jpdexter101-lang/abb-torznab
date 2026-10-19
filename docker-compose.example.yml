@@ -1,0 +1,12 @@
+services:
+  abb-torznab:
+    build: .
+    container_name: abb-torznab
+    restart: unless-stopped
+    ports:
+      - "9117:9117"
+    environment:
+      PUBLIC_URL: http://192.168.1.10:9117   # how Chaptarr/Prowlarr reach this service
+      API_KEY: change-me                     # optional; leave empty to disable
+      # ABB_PROXY: http://proxy:8888         # if your VPN exit is blocked by ABB
+      # ABB_MIRRORS: audiobookbay.lu,audiobookbay.is

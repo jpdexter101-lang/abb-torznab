@@ -1,0 +1,79 @@
+---
+id: audiobook-bay
+name: AudioBook Bay
+description: "AudioBook Bay is a public torrent site for audiobooks. Custom definition from abb-torznab."
+language: en-US
+type: public
+encoding: UTF-8
+links:
+  - https://audiobookbay.lu/
+
+caps:
+  categorymappings:
+    - {id: audiobook, cat: Audio/Audiobook, desc: "Audiobooks"}
+  modes:
+    search: [q]
+    book-search: [q]   # Prowlarr then folds author + title into .Keywords, which gets lowercased
+
+settings: []
+
+search:
+  # ABB returns 404 to non-browser user agents
+  headers:
+    User-Agent: ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"]
+  paths:
+    - path: /
+  # ABB redirects searches containing capitals to its front page.
+  keywordsfilters:
+    - name: tolower
+  inputs:
+    s: "{{ .Keywords }}"
+  rows:
+    selector: div.post:has(div.postTitle h2 a)
+  fields:
+    category:
+      text: audiobook
+    title:
+      selector: div.postTitle h2 a
+    details:
+      selector: div.postTitle h2 a
+      attribute: href
+    download:
+      selector: div.postTitle h2 a
+      attribute: href
+    poster:
+      selector: div.postContent img
+      attribute: src
+    description:
+      selector: div.postInfo
+    date:
+      selector: "div.postContent p[style=\"text-align:center;\"]"
+      filters:
+        - name: regexp
+          args: "Posted: (\\d{1,2} \\w{3,4} \\d{4})"
+        - name: replace
+          args: ["Sept", "Sep"]
+        - name: dateparse
+          args: "d MMM yyyy"
+    size:
+      selector: "div.postContent p[style=\"text-align:center;\"]"
+      filters:
+        - name: re_replace
+          args: ["\\s+", " "]
+        - name: regexp
+          args: "File Size: ?([\\d\\.]+ ?[KMGT]B)"
+    seeders:
+      text: 1
+    leechers:
+      text: 1
+    downloadvolumefactor:
+      text: 0
+    uploadvolumefactor:
+      text: 1
+
+download:
+  infohash:
+    hash:
+      selector: "td:contains(\"Info Hash:\") + td"
+    title:
+      selector: h1
