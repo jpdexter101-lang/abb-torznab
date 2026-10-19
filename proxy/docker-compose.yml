@@ -1,0 +1,10 @@
+# Optional: an HTTP proxy that only talks to AudioBook Bay.
+# Run it somewhere OUTSIDE your VPN, then use it as Prowlarr's tagged HTTP proxy
+# or as ABB_PROXY for the bridge.
+services:
+  abb-proxy:
+    build: .
+    container_name: abb-proxy
+    restart: unless-stopped
+    ports:
+      - "8899:8888"   # bind to your LAN IP, e.g. "192.168.1.10:8899:8888"

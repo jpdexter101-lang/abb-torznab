@@ -1,0 +1,3 @@
+^(www\.)?audiobookbay\.(lu|is|fi|se|li|nl)$
+^(www\.)?theaudiobookbay\.se$
+^prowlarr\.servarr\.com$

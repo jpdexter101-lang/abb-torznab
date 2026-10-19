@@ -10,7 +10,8 @@ Prowlarr and Jackett no longer ship a working AudioBook Bay indexer. The site:
 - blocks many VPN / data-center IP ranges,
 - only shows the torrent info hash on each book's own page, not in search results.
 
-This service deals with all four.
+This service deals with all four. The full write-up of the problem and the fix is in
+[docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md).
 
 ## How it works
 
@@ -59,7 +60,8 @@ Or add it to Prowlarr as **Generic Torznab** and let Prowlarr sync it to your ap
 ## Prowlarr-only alternative
 
 `prowlarr/audiobook-bay.yml` is a Cardigann definition doing the same scrape inside Prowlarr.
-Copy it to Prowlarr's `Definitions/Custom/` folder. Prowlarr caches definitions, so after editing
+Copy it to Prowlarr's `Definitions/Custom/` folder. If your VPN exit is blocked, `proxy/` has an
+ABB-only HTTP proxy to pair it with (setup in [docs/HOW-IT-WORKS.md](docs/HOW-IT-WORKS.md)). Prowlarr caches definitions, so after editing
 one either restart Prowlarr or change its `id` and file name.
 
 ## Tests
